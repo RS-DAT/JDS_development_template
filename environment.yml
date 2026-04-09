@@ -1,0 +1,25 @@
+name: jds_dev_template 
+channels:
+ - conda-forge
+dependencies:
+ - python=3.12
+ - dask
+ - fsspec
+ - geopandas
+ - h5netcdf
+ - joblib
+ - matplotlib
+ - numpy
+ - odc-stac
+ - panel
+ - pystac-client
+ - python-graphviz
+ - pip
+ - rioxarray
+ - scikit-learn
+ - shapely
+ - xarray
+ - zarr
+ - pip:
+   - dcachefs
+   
