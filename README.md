@@ -26,11 +26,7 @@ pip install -e "git+https://github.com/RS-DAT/JupyterDaskOnSLURM.git#egg=jupyter
     - `export FSSPEC_DCACHE_TOKEN="<MACAROON>"`: Update this with the macaroons token if you want to use the dcache filesystem. You can leave this as is if you do not want to use dcache.
     - Other SLURM job parameters (e.g., `--cpus-per-task`, `--time`, etc.) can also be modified according to your needs.
 
-
-### WARNING
-
-**If you have updated `export FSSPEC_DCACHE_TOKEN="<MACAROON>"` with a valid token, please make sure not committing and pushing the updated `jupyterdask-spider.slurm` file to your repository, as this may expose your token to the public.**
-
+    **WARNING: If you have updated `export FSSPEC_DCACHE_TOKEN="<MACAROON>"` with a valid token, please make sure not committing and pushing the updated `jupyterdask-spider.slurm` file to your repository, as this may expose your token to the public.**
 
 6. Now you can use the `jupyterdask` CLI tool to submit the configured SLURM job to the HPC cluster:
 
