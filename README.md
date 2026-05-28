@@ -11,7 +11,7 @@ The users can modify the `environment.yml` file to specify the dependencies need
 
 2. In your new repository, update the `environment.yml` file to include the necessary dependencies for your project. The file is already pre-populated with some common dependencies, so you can add or remove packages as needed. After modifying the `environment.yml` file.
 
-3. Commit and push the changes to your repository. A GitHub Actions workflow will automatically build a new container image based on the updated `environment.yml` file and push it to the GitHub Container Registry. The link to the container image will be in the format `ghcr.io/[yourGitHubOrganization]/[yourRepository]:latest`.
+3. Commit and push the changes to your repository. A GitHub Actions workflow will automatically build a new container image based on the updated `environment.yml` file and push it to the GitHub Container Registry. The link to the container image will be in the format `ghcr.io/[yourGitHubOrganization]/[yourRepository]:latest`. This process may take a few minutes to complete. You can check the "Actions" tab in your GitHub repository to monitor the progress of the workflow. While the workflow is running, you can proceed to Step 4 and Step 5.
 
 4. Install the `jupyterdask` CLI tool on your local machine if you haven't already. Please remember to install it in an independent environment (e.g., `venv`), here we give an example using [`uv`](https://docs.astral.sh/uv/):
 
@@ -28,10 +28,10 @@ pip install -e "git+https://github.com/RS-DAT/JupyterDaskOnSLURM.git#egg=jupyter
 
     **WARNING: If you have updated `export FSSPEC_DCACHE_TOKEN="<MACAROON>"` with a valid token, please make sure not committing and pushing the updated `jupyterdask-spider.slurm` file to your repository, as this may expose your token to the public.**
 
-6. Now you can use the `jupyterdask` CLI tool to submit the configured SLURM job to the HPC cluster:
+6. If the GitHub Actions workflow in step 3 has completed successfully, you can use the `jupyterdask` CLI tool to submit the configured SLURM job to the HPC cluster:
 
 ```bash
-jupyterdask -i jupyterdask -i /path/to/ssh/key --template /path/to/jupyterdask-spider.slurm --run <YOUR_USERNAME>@spider.surf.nl
+jupyterdask -i /path/to/ssh/key --template /path/to/jupyterdask-spider.slurm --run <YOUR_USERNAME>@spider.surf.nl
 ```
 
 After running the above command, `jupyterdask` will submit the job to the HPC SLURM scheduler. When the job starts running, you will see a link to the forwarded Jupyter server in the output of the command. You can open this link in your web browser to access the Jupyter server.
