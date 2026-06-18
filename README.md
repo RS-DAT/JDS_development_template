@@ -1,11 +1,14 @@
 # JDS_development_template
 Template repository for generating (development/exploration stage) repositories for use with jupyterdask tool (see [JupyterDaskOnSlurm](https://github.com/RS-DAT/JupyterDaskOnSLURM))
 
-This repository provides a simple template to build containerized Python environments for use with the jupyterdask tool. This is to address the challenge that conventional Python environments are not suitable for HPC infrastructures with distributed filesystems, e.g. SURF SPIDER.
+This repository provides a simple template to build containerized Python environments for use with the jupyterdask tool. This is to address the challenge that conventional Python environments are not suitable for HPC infrastructures with distributed filesystems, e.g. [SURF Spider](https://doc.spider.surfsara.nl).
 
 The users can modify the `environment.yml` file to specify the dependencies needed for their project, and the GitHub Actions workflow will take care of building and pushing the container image to the GitHub Container Registry. The example SLURM submission script provided in `scripts/jupyterdask-spider.slurm` will use the built container image to run a Jupyter server on the SURF SPIDER HPC cluster. 
 
-## Step-by-step guide to use this template on SURF SPIDER HPC cluster
+## Step-by-step guide to use this template
+
+> [!NOTE]  
+> The following steps have been tailored and tested on the SURF Spider cluster. Nevertheless, most of them are generic and potentially applies to other systems as well.
 
 1. Click the "**Use this template**" button on the GitHub repository page, then select "**Create a new repository**" based on this template. You can create a new repository under your personal GitHub account or within an organization that you belong to.
 
@@ -29,10 +32,11 @@ You can refer to the [JupyterDaskOnSlurm](https://github.com/RS-DAT/JupyterDaskO
 
 5. Modify the `scripts/jupyterdask-spider.slurm` file. This is the SLURM submission script that will be used by the `jupyterdask` CLI tool to submit jobs to the HPC cluster. Please pay attention to the following lines:
     - `APPTAINER_IMAGE="oras://ghcr.io/[yourGitHubOrganizationInLowerCase]/[yourRepositoryInLowerCase]:latest"`: Update this line to point to the container image that was built and pushed to the GitHub Container Registry in step 3. **Important: Make sure to use the lower cases, even if your GitHub organization or repository name contains uppercase letters!**
-    - `export FSSPEC_DCACHE_TOKEN="<MACAROON>"`: Update this with the macaroons token if you want to use the dcache filesystem. **Or comment out the "Configure dCache access" section if you do not want to configure dCache Access now.** 
+    - `export FSSPEC_DCACHE_TOKEN="<MACAROON>"`: Update this with the macaroons token if you want to use the dcache filesystem via [dcachefs](https://dcachefs.readthedocs.io/en/latest/). 
     - Other SLURM job parameters (e.g., `--cpus-per-task`, `--time`, etc.) can also be modified according to your needs.
 
-    **WARNING: If you have updated `export FSSPEC_DCACHE_TOKEN="<MACAROON>"` with a valid token, please make sure not committing and pushing the updated `jupyterdask-spider.slurm` file to your repository, as this may expose your token to the public.**
+> [!WARNING]
+> If you have updated `export FSSPEC_DCACHE_TOKEN="<MACAROON>"` with a valid token, please make sure not committing and pushing the updated `jupyterdask-spider.slurm` file to your repository, as this may expose your token to the public.
 
 6. If the GitHub Actions workflow in step 3 has completed successfully, you can use the `jupyterdask` CLI tool to submit the configured SLURM job to the HPC cluster:
 
